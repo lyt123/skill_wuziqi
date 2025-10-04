@@ -15,6 +15,9 @@ class SkillGomokuGame {
         this.bgmAudio = null;
         this.skillVideo = null;
         this.isVideoPlaying = false;
+        this.currentSkillId = null;
+        this.pendingSkillParams = null;
+        this.globalClickHandler = null;
         
         // 技能视频资源映射
         this.skillVideoMap = {
@@ -165,6 +168,36 @@ class SkillGomokuGame {
         }
     }
     
+    updateCellDisplayWithAnimation(row, col) {
+        const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+        
+        // 添加渐变效果
+        cell.style.transition = 'all 0.8s ease-in-out';
+        cell.style.transform = 'scale(1.2)';
+        cell.style.boxShadow = '0 0 20px rgba(255, 107, 107, 0.8)';
+        
+        setTimeout(() => {
+            if (this.board[row][col] === 1) {
+                cell.className = 'cell black';
+                cell.textContent = '●';
+            } else if (this.board[row][col] === 2) {
+                cell.className = 'cell white';
+                cell.textContent = '○';
+            } else {
+                cell.className = 'cell';
+                cell.textContent = '';
+            }
+            
+            setTimeout(() => {
+                cell.style.transform = 'scale(1)';
+                cell.style.boxShadow = '';
+                setTimeout(() => {
+                    cell.style.transition = '';
+                }, 300);
+            }, 100);
+        }, 200);
+    }
+    
     checkWin(row, col) {
         const player = this.board[row][col];
         const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
@@ -246,9 +279,11 @@ class SkillGomokuGame {
         // 暂停BGM
         this.pauseBGM();
         this.isVideoPlaying = true;
+        this.currentSkillId = skillId; // 保存当前技能ID用于延迟释放
         
         // 设置视频源并播放
         this.skillVideo.src = `res/${randomVideo}`;
+        this.skillVideo.loop = true; // 设置循环播放
         this.skillVideo.style.display = 'block';
         this.skillVideo.style.position = 'fixed';
         this.skillVideo.style.top = '50%';
@@ -259,31 +294,141 @@ class SkillGomokuGame {
         this.skillVideo.style.maxHeight = '80vh';
         this.skillVideo.style.borderRadius = '15px';
         this.skillVideo.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.5)';
+        this.skillVideo.style.cursor = 'pointer';
+        
+        // 添加点击事件监听器来关闭视频
+        this.skillVideo.onclick = () => {
+            this.closeSkillVideo();
+        };
+        
+        // 添加全局点击监听器
+        this.globalClickHandler = (e) => {
+            // 如果点击的不是视频本身，也关闭视频
+            if (e.target !== this.skillVideo) {
+                this.closeSkillVideo();
+            }
+        };
+        document.addEventListener('click', this.globalClickHandler);
         
         this.skillVideo.play().catch(e => {
             console.log('技能视频播放失败:', e);
-            this.onSkillVideoEnded();
+            this.closeSkillVideo();
         });
     }
     
-    onSkillVideoEnded() {
-        this.isVideoPlaying = false;
+    closeSkillVideo() {
+        if (!this.isVideoPlaying) return;
         
-        // 隐藏视频
+        // 移除事件监听器
         if (this.skillVideo) {
-            this.skillVideo.style.display = 'none';
-            this.skillVideo.src = '';
+            this.skillVideo.onclick = null;
+        }
+        if (this.globalClickHandler) {
+            document.removeEventListener('click', this.globalClickHandler);
+            this.globalClickHandler = null;
         }
         
-        // 恢复BGM播放
-        this.playBGM();
+        // 停止循环播放
+        this.skillVideo.loop = false;
+        this.skillVideo.pause();
+        
+        // 添加渐变消失效果
+        this.skillVideo.style.transition = 'opacity 0.5s ease-out';
+        this.skillVideo.style.opacity = '0';
+        
+        setTimeout(() => {
+            this.isVideoPlaying = false;
+            
+            // 隐藏视频
+            if (this.skillVideo) {
+                this.skillVideo.style.display = 'none';
+                this.skillVideo.style.opacity = '1';
+                this.skillVideo.style.transition = '';
+                this.skillVideo.src = '';
+            }
+            
+            // 恢复BGM播放
+            this.playBGM();
+            
+            // 延迟释放技能效果
+            this.executeSkillWithDelay();
+        }, 500);
+    }
+    
+    executeSkillWithDelay() {
+        if (!this.currentSkillId || !this.pendingSkillParams) return;
+        
+        // 显示技能释放提示
+        this.addGameLog('✨ 技能效果即将释放...');
+        
+        // 2秒延迟后执行技能效果
+        setTimeout(() => {
+            const { skillId, row, col } = this.pendingSkillParams;
+            
+            // 执行技能效果
+            this.executeSkillEffect(skillId, row, col);
+            
+            // 清理状态
+            this.currentSkillId = null;
+            this.pendingSkillParams = null;
+        }, 2000);
+    }
+    
+    executeSkillEffect(skillId, row, col) {
+        const skill = this.skills[skillId];
+        const playerName = this.currentPlayer === 1 ? '黑棋' : '白棋';
+        
+        // 保存历史状态
+        this.saveGameState();
+        
+        // 添加渐变效果提示
+        this.addGameLog(`🌟 ${skill.name} 正在生效...`);
+        
+        switch (skillId) {
+            case 'flyStone':
+                this.executeFlyStone(row, col);
+                break;
+            case 'pickGold':
+                this.executePickGold();
+                break;
+            case 'cleanHouse':
+                this.executeCleanHouse();
+                break;
+            case 'silence':
+                this.executeSilence();
+                break;
+            case 'reverseBoard':
+                this.executeReverseBoard();
+                break;
+            case 'clearAll':
+                this.executeClearAll();
+                break;
+        }
+        
+        // 设置冷却
+        this.playerSkillCooldowns[this.currentPlayer][skillId] = skill.cooldown;
+        
+        // 重置技能选择状态
+        this.resetSkillSelection();
+        
+        // 除了两级反转，其他技能使用后不换手
+        if (skillId !== 'reverseBoard') {
+            this.addGameLog(`💫 ${playerName}的${skill.name}生效完毕，可以继续下棋`);
+        } else {
+            this.addGameLog(`💫 ${playerName}的${skill.name}生效完毕，交换执手`);
+            this.switchPlayer();
+        }
+        
+        this.updateUI();
     }
     
     selectSkillForDisplay(skillId) {
         // 只是选择技能显示详情，不立即使用
+        console.log('设置选中技能:', skillId, '当前选中:', this.selectedSkill); // 调试日志
         this.selectedSkill = skillId;
         this.updateSkillDisplay();
         this.updateUI();
+        console.log('技能选择完成，当前选中:', this.selectedSkill); // 调试日志
     }
     
     updateSkillDisplay() {
@@ -378,48 +523,14 @@ class SkillGomokuGame {
         const skill = this.skills[skillId];
         const playerName = this.currentPlayer === 1 ? '黑棋' : '白棋';
         
-        // 播放技能视频
+        // 保存技能参数，等待延迟执行
+        this.pendingSkillParams = { skillId, row, col };
+        
+        // 播放技能视频（循环播放直到用户点击）
         this.playSkillVideo(skillId);
         
-        // 保存历史状态
-        this.saveGameState();
-        
-        switch (skillId) {
-            case 'flyStone':
-                this.executeFlyStone(row, col);
-                break;
-            case 'pickGold':
-                this.executePickGold();
-                break;
-            case 'cleanHouse':
-                this.executeCleanHouse();
-                break;
-            case 'silence':
-                this.executeSilence();
-                break;
-            case 'reverseBoard':
-                this.executeReverseBoard();
-                break;
-            case 'clearAll':
-                this.executeClearAll();
-                break;
-        }
-        
-        // 设置冷却
-        this.playerSkillCooldowns[this.currentPlayer][skillId] = skill.cooldown;
-        
-        // 重置技能选择状态
-        this.resetSkillSelection();
-        
-        // 除了两级反转，其他技能使用后不换手
-        if (skillId !== 'reverseBoard') {
-            this.addGameLog(`${playerName}使用了${skill.name}，可以继续下棋`);
-        } else {
-            this.addGameLog(`${playerName}使用了${skill.name}，交换执手`);
-            this.switchPlayer();
-        }
-        
-        this.updateUI();
+        // 添加使用技能的日志
+        this.addGameLog(`🎬 ${playerName}发动了${skill.name}！`);
     }
     
     // 技能实现
@@ -428,7 +539,7 @@ class SkillGomokuGame {
             const piece = { row, col, player: this.board[row][col] };
             this.removedPieces.push(piece);
             this.board[row][col] = 0;
-            this.updateCellDisplay(row, col);
+            this.updateCellDisplayWithAnimationWithAnimation(row, col);
             this.addGameLog(`🌪️ 呼呼呼~棋子被卷上天了！对手在(${row + 1}, ${col + 1})的棋子被风吹走啦~`);
         }
     }
@@ -461,7 +572,7 @@ class SkillGomokuGame {
         if (emptyPositions.length > 0) {
             const pos = emptyPositions[Math.floor(Math.random() * emptyPositions.length)];
             this.board[pos.row][pos.col] = piece.player;
-            this.updateCellDisplay(pos.row, pos.col);
+            this.updateCellDisplayWithAnimation(pos.row, pos.col);
             
             // 从被移除列表中删除
             this.removedPieces.splice(randomIndex, 1);
@@ -498,7 +609,7 @@ class SkillGomokuGame {
             
             this.removedPieces.push({ ...piece, player: opponent });
             this.board[piece.row][piece.col] = 0;
-            this.updateCellDisplay(piece.row, piece.col);
+            this.updateCellDisplayWithAnimation(piece.row, piece.col);
             
             opponentPieces.splice(randomIndex, 1);
         }
@@ -523,7 +634,7 @@ class SkillGomokuGame {
                 } else if (this.board[i][j] === 2) {
                     this.board[i][j] = 1;
                 }
-                this.updateCellDisplay(i, j);
+                this.updateCellDisplayWithAnimationWithAnimation(i, j);
             }
         }
         
@@ -540,7 +651,7 @@ class SkillGomokuGame {
         for (let i = 0; i < 15; i++) {
             for (let j = 0; j < 15; j++) {
                 this.board[i][j] = 0;
-                this.updateCellDisplay(i, j);
+                this.updateCellDisplayWithAnimationWithAnimation(i, j);
             }
         }
         
@@ -674,7 +785,7 @@ class SkillGomokuGame {
         // 重新渲染棋盘
         for (let i = 0; i < 15; i++) {
             for (let j = 0; j < 15; j++) {
-                this.updateCellDisplay(i, j);
+                this.updateCellDisplayWithAnimationWithAnimation(i, j);
             }
         }
         
@@ -699,7 +810,7 @@ class SkillGomokuGame {
         // 重新渲染棋盘
         for (let i = 0; i < 15; i++) {
             for (let j = 0; j < 15; j++) {
-                this.updateCellDisplay(i, j);
+                this.updateCellDisplayWithAnimationWithAnimation(i, j);
             }
         }
         
@@ -710,8 +821,15 @@ class SkillGomokuGame {
 
 // 技能选择函数 - 全局函数供HTML调用
 function selectSkill(skillElement) {
+    // 防止事件冒泡
+    if (event) {
+        event.stopPropagation();
+    }
+    
     const skillId = skillElement.dataset.skill;
-    if (game) {
+    console.log('选择技能:', skillId); // 调试日志
+    
+    if (game && skillId) {
         game.selectSkillForDisplay(skillId);
     }
 }
