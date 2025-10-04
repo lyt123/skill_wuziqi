@@ -201,10 +201,14 @@ class SkillSystem {
     }
     
     updateSkillEffects() {
-        if (this.skillEffects.silenceDuration > 0) {
-            this.skillEffects.silenceDuration--;
-            if (this.skillEffects.silenceDuration === 0) {
-                this.skillEffects.silencedPlayer = null;
+        // 只在被沉默的玩家回合开始时才减少沉默计数
+        if (this.skillEffects.silencedPlayer === window.gameCore.currentPlayer) {
+            if (this.skillEffects.silenceDuration > 0) {
+                this.skillEffects.silenceDuration--;
+                if (this.skillEffects.silenceDuration === 0) {
+                    window.gameCore.addGameLog('🔊 沉默效果解除！可以使用技能了~');
+                    this.skillEffects.silencedPlayer = null;
+                }
             }
         }
     }

@@ -1,0 +1,227 @@
+/* ===== 技能五子棋 - 响应式设计和工具类 ===== */
+
+/* ===== 10. 响应式设计 ===== */
+@media (max-width: 768px) {
+    .game-main {
+        padding: var(--space-md);
+        gap: var(--space-md);
+    }
+    
+    .skills-status-row {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .right-control-panel {
+        flex-direction: row;
+        justify-content: center;
+        min-width: auto;
+        width: 100%;
+        padding: var(--space-xs) var(--space-md);
+    }
+    
+    .game-status-compact {
+        flex-direction: row;
+        gap: var(--space-xs);
+    }
+    
+    .status-item {
+        min-width: 45px;
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.7rem;
+    }
+    
+    .inline-use-skill-btn {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.7rem;
+        min-width: 70px;
+    }
+    
+    .compact-skills-grid {
+        gap: 6px;
+    }
+    
+    .compact-skill-item {
+        min-height: 65px;
+        padding: 6px;
+    }
+    
+    .compact-skill-icon {
+        font-size: 1.2rem;
+        animation-duration: 5s;
+    }
+    
+    .compact-skill-name {
+        font-size: 0.65rem;
+    }
+    
+    .compact-skill-cd {
+        font-size: 0.55rem;
+    }
+    
+    .board {
+        width: 95vw;
+        max-width: 95vw;
+        padding: var(--space-xs);
+    }
+    
+    .cell {
+        font-size: var(--font-md);
+    }
+    
+    .game-controls-row {
+        flex-direction: row;
+        gap: var(--space-md);
+    }
+    
+    .game-controls-row .btn {
+        min-width: 90px;
+        max-width: 120px;
+    }
+    
+    .game-log {
+        height: 120px;
+    }
+    
+    .compact-skills-panel {
+        padding: var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .game-header h1 {
+        font-size: var(--font-3xl);
+        animation-duration: 4s;
+    }
+    
+    .game-main {
+        padding: var(--space-sm);
+        gap: var(--space-md);
+    }
+    
+    .skills-status-row {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .right-control-panel {
+        flex-direction: row;
+        gap: var(--space-xs);
+        align-items: center;
+        padding: var(--space-xs) var(--space-sm);
+    }
+    
+    .game-status-compact {
+        flex-direction: row;
+        gap: var(--space-xs);
+        justify-content: center;
+    }
+    
+    .status-item {
+        min-width: 40px;
+        padding: var(--space-xs) var(--space-xs);
+        font-size: 0.65rem;
+    }
+    
+    .status-label {
+        font-size: 0.7rem;
+    }
+    
+    .status-value {
+        font-size: 0.6rem;
+    }
+    
+    .inline-use-skill-btn {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.65rem;
+        min-width: 60px;
+    }
+    
+    .compact-skills-panel {
+        padding: var(--space-sm);
+    }
+    
+    .compact-skills-grid {
+        gap: var(--space-xs);
+    }
+    
+    .compact-skill-item {
+        min-height: 55px;
+        padding: var(--space-xs);
+    }
+    
+    .compact-skill-icon {
+        font-size: 1rem;
+        margin-bottom: 1px;
+    }
+    
+    .compact-skill-name {
+        font-size: var(--font-sm);
+        margin-bottom: 1px;
+    }
+    
+    .compact-skill-cd {
+        font-size: var(--font-xs);
+    }
+    
+    .board {
+        width: 98vw;
+        max-width: 98vw;
+        padding: 3px;
+    }
+    
+    .cell {
+        font-size: var(--font-sm);
+    }
+    
+    .game-controls-row .btn {
+        min-width: 80px;
+        max-width: 100px;
+        font-size: var(--font-lg);
+        padding: 6px var(--space-md);
+    }
+    
+    .info-panel {
+        padding: var(--space-md);
+    }
+    
+    .game-log {
+        height: 100px;
+    }
+}
+
+/* ===== 11. 工具类 ===== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+
+.cursor-pointer { cursor: pointer; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+.select-none { user-select: none; }
+
+/* ===== 12. 调试辅助 ===== */
+.debug {
+    border: 1px solid red !important;
+}
+
+.debug-grid {
+    background-image: 
+        linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 10px 10px;
+}
+

@@ -1,0 +1,120 @@
+/* ===== 技能五子棋 - 基础样式 ===== */
+
+/* ===== 1. 基础重置和全局样式 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* 主题色彩 */
+    --primary-red: #ff6b6b;
+    --primary-blue: #4ecdc4;
+    --primary-yellow: #feca57;
+    --primary-green: #96ceb4;
+    --primary-purple: #45b7d1;
+    
+    /* 功能色彩 */
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --info-color: #667eea;
+    --danger-color: #e74c3c;
+    --secondary-color: #95a5a6;
+    
+    /* 背景和边框 */
+    --bg-glass: rgba(255, 255, 255, 0.95);
+    --bg-glass-light: rgba(255, 255, 255, 0.7);
+    --border-primary: rgba(255, 107, 107, 0.2);
+    --border-secondary: rgba(78, 205, 196, 0.2);
+    --border-success: rgba(150, 206, 180, 0.3);
+    
+    /* 阴影 */
+    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 10px 40px rgba(0, 0, 0, 0.25);
+    
+    /* 字体大小 */
+    --font-xs: 0.5rem;
+    --font-sm: 0.6rem;
+    --font-md: 0.7rem;
+    --font-lg: 0.8rem;
+    --font-xl: 0.9rem;
+    --font-2xl: 1.1rem;
+    --font-3xl: 1.4rem;
+    --font-4xl: 2rem;
+    
+    /* 间距 */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 15px;
+    --space-xl: 20px;
+    
+    /* 圆角 */
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --radius-xl: 15px;
+    --radius-full: 20px;
+}
+
+body {
+    font-family: 'Comic Sans MS', 'Microsoft YaHei', cursive, sans-serif;
+    background: linear-gradient(45deg, var(--primary-red), var(--primary-blue), var(--primary-purple), var(--primary-green), var(--primary-yellow));
+    background-size: 300% 300%;
+    animation: gradientShift 8s ease infinite;
+    color: #333;
+    overflow-x: auto;
+    min-height: 100vh;
+}
+
+/* ===== 2. 动画定义 ===== */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+@keyframes selectablePulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes statusPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+        transform: translateY(-1px);
+    }
+}
+

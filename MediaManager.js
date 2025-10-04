@@ -199,38 +199,24 @@ class MediaManager {
             // 恢复BGM播放
             this.playBGM();
             
-            // 延迟释放技能效果
-            this.executeSkillWithDelay();
+            // 立即执行技能效果，不延迟
+            this.executeSkillImmediately();
         }, 500);
     }
     
-    executeSkillWithDelay() {
+    executeSkillImmediately() {
         if (!this.currentSkillId || !this.pendingSkillParams) return;
         
-        // 显示技能释放提示
-        if (window.gameCore) {
-            window.gameCore.addGameLog('✨ 技能效果即将释放，请注意观察棋盘变化...');
+        const { skillId, row, col } = this.pendingSkillParams;
+        
+        // 执行技能效果
+        if (window.skillSystem) {
+            window.skillSystem.executeSkillEffect(skillId, row, col);
         }
         
-        // 延长延迟时间到3秒，让用户有更多时间准备观察
-        setTimeout(() => {
-            const { skillId, row, col } = this.pendingSkillParams;
-            
-            // 再次提示技能开始生效
-            if (window.gameCore) {
-                const skill = window.skillSystem.skills[skillId];
-                window.gameCore.addGameLog(`🌟 ${skill.name} 开始生效！`);
-            }
-            
-            // 执行技能效果
-            if (window.skillSystem) {
-                window.skillSystem.executeSkillEffect(skillId, row, col);
-            }
-            
-            // 清理状态
-            this.currentSkillId = null;
-            this.pendingSkillParams = null;
-        }, 3000); // 增加到3秒延迟
+        // 清理状态
+        this.currentSkillId = null;
+        this.pendingSkillParams = null;
     }
     
     onSkillVideoEnded() {

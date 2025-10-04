@@ -1,0 +1,196 @@
+/* ===== 技能五子棋 - 棋盘和控制样式 ===== */
+
+/* ===== 7. 游戏棋盘组件 ===== */
+.board {
+    width: 90vw;
+    max-width: 90vw;
+    aspect-ratio: 1;
+    background: linear-gradient(45deg, #f4e4bc, #f0d8a8);
+    border: 4px solid #8b4513;
+    border-radius: var(--radius-xl);
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+    gap: 1px;
+    padding: 6px;
+    box-shadow: var(--shadow-heavy);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.board::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 4s linear infinite;
+    pointer-events: none;
+}
+
+.cell {
+    background: #f4e4bc;
+    border: 1px solid #d4c4a0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-lg);
+    transition: background-color 0.2s ease;
+    position: relative;
+    border-radius: 2px;
+    aspect-ratio: 1;
+}
+
+.cell:hover {
+    background: linear-gradient(45deg, #e4d4ac, #f0e0cc);
+}
+
+.cell.black {
+    background: radial-gradient(circle, #2c3e50 0%, #1a1a1a 100%);
+    color: white;
+    animation: popIn 0.3s ease-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cell.white {
+    background: radial-gradient(circle, #ecf0f1 0%, #bdc3c7 100%);
+    color: black;
+    animation: popIn 0.3s ease-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cell.selectable {
+    background: linear-gradient(45deg, rgba(231, 76, 60, 0.4), rgba(255, 107, 107, 0.6));
+    animation: selectablePulse 1s infinite;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+}
+
+/* ===== 8. 控制按钮组件 ===== */
+.game-controls-row {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    width: 100%;
+}
+
+.game-controls-row .btn {
+    flex: 0 0 auto;
+    min-width: 100px;
+    max-width: 140px;
+}
+
+.btn {
+    padding: var(--space-sm) var(--space-lg);
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: var(--font-xl);
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #229954;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background: var(--warning-color);
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #e67e22;
+    transform: translateY(-2px);
+}
+
+.btn-info {
+    background: var(--info-color);
+    color: white;
+}
+
+.btn-info:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.btn-music {
+    background: var(--primary-purple);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-music:hover {
+    background: #8e44ad;
+    transform: translateY(-2px);
+}
+
+.btn-music.music-on {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.btn-music.music-off {
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    opacity: 0.7;
+}
+
+/* ===== 9. 信息面板组件 ===== */
+.info-panel {
+    width: 100%;
+    background: var(--bg-glass);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    backdrop-filter: blur(15px);
+    box-shadow: var(--shadow-medium);
+    border: 2px solid var(--border-success);
+}
+
+.info-panel h3 {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    color: var(--primary-green);
+    font-size: var(--font-2xl);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.game-log {
+    height: 150px;
+    overflow-y: auto;
+    padding: var(--space-md);
+    background: var(--bg-glass-light);
+    border-radius: var(--radius-sm);
+    border: 1px solid #ddd;
+}
+
+.log-item {
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid #eee;
+    font-size: var(--font-xl);
+    color: #555;
+}
+
+.log-item:last-child {
+    border-bottom: none;
+}
+

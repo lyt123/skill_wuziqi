@@ -14,7 +14,22 @@ class UIManager {
         // 更新当前玩家显示
         const currentPlayerElement = document.getElementById('currentPlayer');
         if (currentPlayerElement && window.gameCore) {
-            currentPlayerElement.textContent = window.gameCore.currentPlayer === 1 ? '黑棋' : '白棋';
+            const isBlack = window.gameCore.currentPlayer === 1;
+            currentPlayerElement.textContent = isBlack ? '黑棋' : '白棋';
+            
+            // 动态改变父元素背景色，让当前玩家更明显
+            const statusItem = currentPlayerElement.closest('.status-item');
+            if (statusItem) {
+                if (isBlack) {
+                    statusItem.style.backgroundColor = '#2c3e50';
+                    statusItem.style.color = '#fff';
+                    statusItem.style.borderColor = '#2c3e50';
+                } else {
+                    statusItem.style.backgroundColor = '#ecf0f1';
+                    statusItem.style.color = '#333';
+                    statusItem.style.borderColor = '#bdc3c7';
+                }
+            }
         }
         
         // 更新回合数显示
