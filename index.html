@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>技能五子棋 | 在线对战</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 游戏头部 -->
+        <header class="game-header">
+            <h1>🎯 技能五子棋大乱斗 🎊</h1>
+        </header>
+
+        <!-- 游戏主体 -->
+        <main class="game-main">
+            <!-- 游戏棋盘 -->
+            <div class="game-board-container">
+                <!-- 技能面板和状态控制区域 -->
+                <div class="skills-status-row">
+                    <!-- 紧凑技能面板 -->
+                    <div class="compact-skills-panel">
+                        <div class="compact-skills-grid">
+                            <div class="compact-skill-item" data-skill="flyStone" onclick="selectSkill(this)" title="飞沙走石 - 选择对手棋子扔出棋盘">
+                                <div class="compact-skill-icon">🌪️</div>
+                                <div class="compact-skill-name">飞沙走石</div>
+                                <div class="compact-skill-cd"><span class="cd-text">3回合</span></div>
+                            </div>
+                            <div class="compact-skill-item" data-skill="pickGold" onclick="selectSkill(this)" title="拾金不昧 - 恢复被扔走的棋子">
+                                <div class="compact-skill-icon">♻️</div>
+                                <div class="compact-skill-name">拾金不昧</div>
+                                <div class="compact-skill-cd"><span class="cd-text">5回合</span></div>
+                            </div>
+                            <div class="compact-skill-item" data-skill="cleanHouse" onclick="selectSkill(this)" title="保洁上门 - 随机清理对手1-3个棋子">
+                                <div class="compact-skill-icon">🧹</div>
+                                <div class="compact-skill-name">保洁上门</div>
+                                <div class="compact-skill-cd"><span class="cd-text">7回合</span></div>
+                            </div>
+                            <div class="compact-skill-item" data-skill="silence" onclick="selectSkill(this)" title="静如止水 - 禁用对手下回合技能">
+                                <div class="compact-skill-icon">⏸️</div>
+                                <div class="compact-skill-name">静如止水</div>
+                                <div class="compact-skill-cd"><span class="cd-text">10回合</span></div>
+                            </div>
+                            <div class="compact-skill-item" data-skill="reverseBoard" onclick="selectSkill(this)" title="两级反转 - 交换棋盘中双方棋子">
+                                <div class="compact-skill-icon">🔄</div>
+                                <div class="compact-skill-name">两级反转</div>
+                                <div class="compact-skill-cd"><span class="cd-text">999回合</span></div>
+                            </div>
+                            <div class="compact-skill-item" data-skill="clearAll" onclick="selectSkill(this)" title="力拔山兮 - 清空棋盘所有棋子">
+                                <div class="compact-skill-icon">💥</div>
+                                <div class="compact-skill-name">力拔山兮</div>
+                                <div class="compact-skill-cd"><span class="cd-text">999回合</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧状态和控制区域 -->
+                    <div class="right-control-panel">
+                        <div class="game-status-compact">
+                            <div class="status-item">
+                                <span class="status-label">🎭</span>
+                                <span class="status-value" id="currentPlayer">黑棋</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">⏰</span>
+                                <span class="status-value" id="turnCount">1</span>
+                            </div>
+                        </div>
+                        <button class="inline-use-skill-btn" id="useSkillBtn" onclick="confirmUseSkill()" disabled>
+                            🚀 使用技能
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="board" id="gameBoard"></div>
+                
+                <!-- 游戏控制按钮 -->
+                <div class="game-controls-row">
+                    <button class="btn btn-success" onclick="startNewGame()">🎮 重新开始</button>
+                    <button class="btn btn-warning" onclick="undoMove()">⏪ 悔棋</button>
+                </div>
+            </div>
+
+            <!-- 信息面板 -->
+            <div class="info-panel">
+                <h3>📜 战斗日志</h3>
+                <div class="game-log" id="gameLog">
+                    <div class="log-item">🎯 游戏开始！让我们愉快地厮杀吧~ </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
