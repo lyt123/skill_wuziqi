@@ -11,6 +11,21 @@ class SkillGomokuGame {
         this.selectedSkillForUse = null;
         this.skillMode = false;
         
+        // 音视频管理
+        this.bgmAudio = null;
+        this.skillVideo = null;
+        this.isVideoPlaying = false;
+        
+        // 技能视频资源映射
+        this.skillVideoMap = {
+            'flyStone': ['飞沙走石.mp4', '飞沙走石1.mp4', '飞沙走石3.mp4'],
+            'pickGold': ['拾金不昧.mp4'],
+            'cleanHouse': ['保洁上门.mp4', '保洁上门2.mp4'],
+            'silence': ['静如止水.mp4', '静如止水2.mp4'],
+            'reverseBoard': ['两级反转.mp4'],
+            'clearAll': ['力拔山兮.mp4', '力拔山兮2.mp4', '力拔山兮3.mp4']
+        };
+        
         // 技能配置
         this.skills = {
             flyStone: { 
@@ -186,6 +201,84 @@ class SkillGomokuGame {
         // 这里可以添加其他初始化逻辑
     }
     
+    // 音视频管理方法
+    initAudioVideo() {
+        this.bgmAudio = document.getElementById('bgmAudio');
+        this.skillVideo = document.getElementById('skillVideo');
+        
+        // 设置BGM循环播放
+        if (this.bgmAudio) {
+            this.bgmAudio.volume = 0.3; // 设置音量
+            this.bgmAudio.addEventListener('canplaythrough', () => {
+                this.playBGM();
+            });
+        }
+        
+        // 设置技能视频播放完成后的回调
+        if (this.skillVideo) {
+            this.skillVideo.addEventListener('ended', () => {
+                this.onSkillVideoEnded();
+            });
+        }
+    }
+    
+    playBGM() {
+        if (this.bgmAudio && !this.isVideoPlaying) {
+            this.bgmAudio.play().catch(e => {
+                console.log('BGM播放失败，可能需要用户交互:', e);
+            });
+        }
+    }
+    
+    pauseBGM() {
+        if (this.bgmAudio) {
+            this.bgmAudio.pause();
+        }
+    }
+    
+    playSkillVideo(skillId) {
+        if (!this.skillVideo || !this.skillVideoMap[skillId]) return;
+        
+        // 随机选择一个视频文件
+        const videoFiles = this.skillVideoMap[skillId];
+        const randomVideo = videoFiles[Math.floor(Math.random() * videoFiles.length)];
+        
+        // 暂停BGM
+        this.pauseBGM();
+        this.isVideoPlaying = true;
+        
+        // 设置视频源并播放
+        this.skillVideo.src = `res/${randomVideo}`;
+        this.skillVideo.style.display = 'block';
+        this.skillVideo.style.position = 'fixed';
+        this.skillVideo.style.top = '50%';
+        this.skillVideo.style.left = '50%';
+        this.skillVideo.style.transform = 'translate(-50%, -50%)';
+        this.skillVideo.style.zIndex = '9999';
+        this.skillVideo.style.maxWidth = '80vw';
+        this.skillVideo.style.maxHeight = '80vh';
+        this.skillVideo.style.borderRadius = '15px';
+        this.skillVideo.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.5)';
+        
+        this.skillVideo.play().catch(e => {
+            console.log('技能视频播放失败:', e);
+            this.onSkillVideoEnded();
+        });
+    }
+    
+    onSkillVideoEnded() {
+        this.isVideoPlaying = false;
+        
+        // 隐藏视频
+        if (this.skillVideo) {
+            this.skillVideo.style.display = 'none';
+            this.skillVideo.src = '';
+        }
+        
+        // 恢复BGM播放
+        this.playBGM();
+    }
+    
     selectSkillForDisplay(skillId) {
         // 只是选择技能显示详情，不立即使用
         this.selectedSkill = skillId;
@@ -284,6 +377,9 @@ class SkillGomokuGame {
     useSkill(skillId, row = null, col = null) {
         const skill = this.skills[skillId];
         const playerName = this.currentPlayer === 1 ? '黑棋' : '白棋';
+        
+        // 播放技能视频
+        this.playSkillVideo(skillId);
         
         // 保存历史状态
         this.saveGameState();
@@ -646,4 +742,13 @@ function undoMove() {
 // 初始化游戏
 document.addEventListener('DOMContentLoaded', function() {
     game = new SkillGomokuGame();
+    
+    // 初始化音视频系统
+    game.initAudioVideo();
+    
+    // 添加用户交互启动BGM（某些浏览器需要用户交互才能播放音频）
+    document.addEventListener('click', function startBGM() {
+        game.playBGM();
+        document.removeEventListener('click', startBGM);
+    }, { once: true });
 });
