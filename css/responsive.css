@@ -7,6 +7,30 @@
         gap: var(--space-md);
     }
     
+    .inline-help-btn {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+    
+    .modal-content {
+        max-width: 90%;
+        max-height: 85vh;
+        padding: var(--space-lg);
+    }
+    
+    .modal-content h2 {
+        font-size: var(--font-2xl);
+    }
+    
+    .modal-content h3 {
+        font-size: var(--font-xl);
+    }
+    
+    .skill-help-icon {
+        font-size: 1.2rem;
+    }
+    
     .skills-status-row {
         flex-direction: column;
         gap: var(--space-md);
@@ -92,6 +116,43 @@
     .game-header h1 {
         font-size: var(--font-3xl);
         animation-duration: 4s;
+    }
+    
+    .inline-help-btn {
+        min-width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+        padding: var(--space-xs);
+    }
+    
+    .modal-content {
+        max-width: 95%;
+        max-height: 90vh;
+        padding: var(--space-md);
+    }
+    
+    .modal-close {
+        font-size: 1.5rem;
+        top: 10px;
+        right: 15px;
+    }
+    
+    .modal-content h2 {
+        font-size: var(--font-xl);
+        margin-bottom: var(--space-md);
+    }
+    
+    .modal-content h3 {
+        font-size: var(--font-lg);
+        margin-top: var(--space-md);
+    }
+    
+    .skill-help-item {
+        padding: var(--space-sm);
+    }
+    
+    .help-content ol {
+        margin-left: var(--space-lg);
     }
     
     .game-main {

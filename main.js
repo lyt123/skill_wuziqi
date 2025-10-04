@@ -44,6 +44,32 @@ function toggleMusic() {
     }
 }
 
+function showSkillHelp() {
+    const modal = document.getElementById('skillHelpModal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function closeSkillHelp() {
+    const modal = document.getElementById('skillHelpModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// 点击模态框外部关闭
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('skillHelpModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeSkillHelp();
+            }
+        });
+    }
+});
+
 // 游戏初始化
 function initGame() {
     // 检查依赖是否加载

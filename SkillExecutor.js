@@ -15,13 +15,27 @@ class SkillExecutor {
     }
     
     static executePickGold() {
-        if (window.gameCore.removedPieces.length === 0) {
-            window.gameCore.addGameLog('♻️ 咦？没有被扔走的棋子可以恢复呢，看来大家都很爱惜棋子嘛~');
+        // 筛选出当前玩家的被移除棋子
+        const myRemovedPieces = window.gameCore.removedPieces.filter(
+            piece => piece.player === window.gameCore.currentPlayer
+        );
+        
+        if (myRemovedPieces.length === 0) {
+            window.gameCore.addGameLog('♻️ 咦？你没有被扔走的棋子可以恢复呢~');
             return;
         }
         
-        const randomIndex = Math.floor(Math.random() * window.gameCore.removedPieces.length);
-        const piece = window.gameCore.removedPieces.splice(randomIndex, 1)[0];
+        // 从自己的被移除棋子中随机选一个
+        const randomIndex = Math.floor(Math.random() * myRemovedPieces.length);
+        const piece = myRemovedPieces[randomIndex];
+        
+        // 从全局removedPieces中移除这个棋子
+        const globalIndex = window.gameCore.removedPieces.findIndex(
+            p => p.row === piece.row && p.col === piece.col && p.player === piece.player
+        );
+        if (globalIndex !== -1) {
+            window.gameCore.removedPieces.splice(globalIndex, 1);
+        }
         
         const emptySpots = [];
         for (let i = 0; i < 15; i++) {
@@ -39,7 +53,7 @@ class SkillExecutor {
             setTimeout(() => {
                 window.gameCore.board[randomSpot.row][randomSpot.col] = piece.player;
                 window.gameCore.updateCellDisplayWithAnimation(randomSpot.row, randomSpot.col);
-                window.gameCore.addGameLog(`♻️ 哇！拾金不昧的精神让棋子回来啦！放在了(${randomSpot.row + 1}, ${randomSpot.col + 1})~`);
+                window.gameCore.addGameLog(`♻️ 哇！拾金不昧的精神让你的棋子回来啦！放在了(${randomSpot.row + 1}, ${randomSpot.col + 1})~`);
             }, 500);
         }
     }

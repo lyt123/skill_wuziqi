@@ -42,18 +42,29 @@ class UIManager {
     updateSkillDisplay() {
         if (!window.skillSystem || !window.gameCore) return;
         
+        // 检查是否被沉默
+        const isSilenced = window.skillSystem.skillEffects.silencedPlayer === window.gameCore.currentPlayer;
+        
         // 更新紧凑技能显示
         document.querySelectorAll('.compact-skill-item').forEach(item => {
             const skillId = item.dataset.skill;
             const cooldown = window.skillSystem.playerSkillCooldowns[window.gameCore.currentPlayer][skillId] || 0;
             const cdText = item.querySelector('.cd-text');
             
-            if (cooldown > 0) {
+            // 先移除所有状态类
+            item.classList.remove('on-cooldown');
+            
+            if (isSilenced) {
+                // 被沉默时，所有技能都不可用
+                cdText.textContent = '被沉默';
+                item.classList.add('on-cooldown');
+            } else if (cooldown > 0) {
+                // 冷却中
                 cdText.textContent = `${cooldown}回合`;
                 item.classList.add('on-cooldown');
             } else {
+                // 可用状态
                 cdText.textContent = window.skillSystem.skills[skillId].cooldown + '回合';
-                item.classList.remove('on-cooldown');
             }
             
             // 更新选中状态
@@ -63,13 +74,6 @@ class UIManager {
                 item.classList.remove('selected');
             }
         });
-        
-        // 检查沉默状态
-        if (window.skillSystem.skillEffects.silencedPlayer === window.gameCore.currentPlayer) {
-            document.querySelectorAll('.compact-skill-item').forEach(item => {
-                item.classList.add('on-cooldown');
-            });
-        }
         
         // 更新技能使用按钮
         if (window.skillSystem.updateSkillDisplay) {

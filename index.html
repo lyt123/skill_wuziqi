@@ -19,6 +19,84 @@
             <source src="" type="video/mp4">
         </video>
         
+        <!-- 技能说明弹窗 -->
+        <div id="skillHelpModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeSkillHelp()">&times;</span>
+                <h2>🎮 技能五子棋玩法说明</h2>
+                <div class="help-content">
+                    <h3>📜 游戏规则</h3>
+                    <p>这是一个结合了传统五子棋和技能系统的对战游戏。双方轮流下棋，先连成五子者获胜！</p>
+                    
+                    <h3>⚡ 技能系统</h3>
+                    <div class="skill-help-item">
+                        <div class="skill-help-header">
+                            <span class="skill-help-icon">🌪️</span>
+                            <strong>飞沙走石</strong>
+                            <span class="skill-help-cd">冷却: 3回合</span>
+                        </div>
+                        <p>选择对手的一个棋子，将其扔出棋盘。适合破坏对手的连线布局。</p>
+                    </div>
+                    
+                    <div class="skill-help-item">
+                        <div class="skill-help-header">
+                            <span class="skill-help-icon">♻️</span>
+                            <strong>拾金不昧</strong>
+                            <span class="skill-help-cd">冷却: 5回合</span>
+                        </div>
+                        <p>将自己被扔走的棋子随机恢复到棋盘上的空位。可以挽回被移除的棋子。</p>
+                    </div>
+                    
+                    <div class="skill-help-item">
+                        <div class="skill-help-header">
+                            <span class="skill-help-icon">🧹</span>
+                            <strong>保洁上门</strong>
+                            <span class="skill-help-cd">冷却: 7回合</span>
+                        </div>
+                        <p>随机清理对手1-3个棋子。强力的破坏技能，可以瞬间改变局势。</p>
+                    </div>
+                    
+                    <div class="skill-help-item">
+                        <div class="skill-help-header">
+                            <span class="skill-help-icon">⏸️</span>
+                            <strong>静如止水</strong>
+                            <span class="skill-help-cd">冷却: 10回合</span>
+                        </div>
+                        <p>禁用对手下一回合的所有技能。用于关键时刻阻止对手使用技能。</p>
+                    </div>
+                    
+                    <div class="skill-help-item">
+                        <div class="skill-help-header">
+                            <span class="skill-help-icon">🔄</span>
+                            <strong>两级反转</strong>
+                            <span class="skill-help-cd">冷却: 999回合</span>
+                        </div>
+                        <p>交换棋盘上双方的所有棋子。超强大招，只能使用一次，慎用！</p>
+                    </div>
+                    
+                    <div class="skill-help-item">
+                        <div class="skill-help-header">
+                            <span class="skill-help-icon">💥</span>
+                            <strong>力拔山兮</strong>
+                            <span class="skill-help-cd">冷却: 999回合</span>
+                        </div>
+                        <p>清空棋盘上的所有棋子，重新开始。终极大招，同归于尽！</p>
+                    </div>
+                    
+                    <h3>🎯 操作指南</h3>
+                    <ol>
+                        <li>点击技能卡片选择要使用的技能</li>
+                        <li>点击"使用技能"按钮确认</li>
+                        <li>如需选择目标（如飞沙走石），点击棋盘上的目标棋子</li>
+                        <li>观看技能特效视频，点击任意位置关闭</li>
+                        <li>技能生效后可以继续下棋</li>
+                    </ol>
+                    
+                    <p class="help-footer">💡 提示：合理使用技能组合可以创造出意想不到的战术效果！</p>
+                </div>
+            </div>
+        </div>
+        
         <!-- 游戏头部 -->
         <header class="game-header">
             <h1>🎯 技能五子棋大乱斗 🎊</h1>
@@ -80,6 +158,9 @@
                         </div>
                         <button class="inline-use-skill-btn" id="useSkillBtn" onclick="confirmUseSkill()" disabled>
                             🚀 使用技能
+                        </button>
+                        <button class="inline-help-btn" onclick="showSkillHelp()" title="查看技能说明">
+                            ❓
                         </button>
                     </div>
                 </div>
