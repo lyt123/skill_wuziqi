@@ -58,13 +58,36 @@ function closeSkillHelp() {
     }
 }
 
+function showAbout() {
+    const modal = document.getElementById('aboutModal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function closeAbout() {
+    const modal = document.getElementById('aboutModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
 // 点击模态框外部关闭
 document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('skillHelpModal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
+    const skillModal = document.getElementById('skillHelpModal');
+    if (skillModal) {
+        skillModal.addEventListener('click', function(e) {
+            if (e.target === skillModal) {
                 closeSkillHelp();
+            }
+        });
+    }
+    
+    const aboutModal = document.getElementById('aboutModal');
+    if (aboutModal) {
+        aboutModal.addEventListener('click', function(e) {
+            if (e.target === aboutModal) {
+                closeAbout();
             }
         });
     }

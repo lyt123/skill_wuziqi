@@ -19,6 +19,35 @@
             <source src="" type="video/mp4">
         </video>
         
+        <!-- 关于弹窗 -->
+        <div id="aboutModal" class="modal" style="display: none;">
+            <div class="modal-content about-modal">
+                <span class="modal-close" onclick="closeAbout()">&times;</span>
+                <h2>💡 关于技能五子棋</h2>
+                <div class="about-content">
+                    <p class="about-intro">欢迎来到技能五子棋大乱斗！这是一款融合传统五子棋与趣味技能的创新游戏。</p>
+                    
+                    <h3>📱 加入我们的社区</h3>
+                    <div class="qr-codes-container">
+                        <div class="qr-code-item">
+                            <img src="contact/wechat_group.jpg" alt="微信用户群" class="qr-code-img">
+                            <p class="qr-code-label">🔥 微信用户群</p>
+                            <p class="qr-code-desc">扫码加入，与玩家交流</p>
+                        </div>
+                        <div class="qr-code-item">
+                            <img src="contact/xiaohongshu.jpg" alt="小红书账号" class="qr-code-img">
+                            <p class="qr-code-label">📖 小红书官方账号</p>
+                            <p class="qr-code-desc">关注获取最新动态</p>
+                        </div>
+                    </div>
+                    
+                    <div class="about-footer">
+                        <p>🎯 感谢你的支持！祝游戏愉快~</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- 技能说明弹窗 -->
         <div id="skillHelpModal" class="modal" style="display: none;">
             <div class="modal-content">
@@ -172,6 +201,7 @@
                     <button class="btn btn-success" onclick="startNewGame()">🎮 重新开始</button>
                     <button class="btn btn-warning" onclick="undoMove()">⏪ 悔棋</button>
                     <button class="btn btn-music" id="musicToggleBtn" onclick="toggleMusic()" title="音乐开关">🎵</button>
+                    <button class="btn btn-info" onclick="showAbout()" title="关于我们">ℹ️ 关于</button>
                 </div>
             </div>
 

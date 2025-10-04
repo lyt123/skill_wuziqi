@@ -31,6 +31,19 @@
         font-size: 1.2rem;
     }
     
+    .about-modal {
+        max-width: 90%;
+    }
+    
+    .qr-codes-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .qr-code-item {
+        max-width: 100%;
+    }
+    
     .skills-status-row {
         flex-direction: column;
         gap: var(--space-md);
@@ -153,6 +166,18 @@
     
     .help-content ol {
         margin-left: var(--space-lg);
+    }
+    
+    .about-intro {
+        font-size: var(--font-md);
+    }
+    
+    .qr-code-label {
+        font-size: var(--font-lg);
+    }
+    
+    .qr-code-desc {
+        font-size: var(--font-sm);
     }
     
     .game-main {
