@@ -87,6 +87,7 @@
                 <div class="game-controls-row">
                     <button class="btn btn-success" onclick="startNewGame()">🎮 重新开始</button>
                     <button class="btn btn-warning" onclick="undoMove()">⏪ 悔棋</button>
+                    <button class="btn btn-music" id="musicToggleBtn" onclick="toggleMusic()" title="音乐开关">🎵</button>
                 </div>
             </div>
 
@@ -100,6 +101,13 @@
         </main>
     </div>
 
-    <script src="game.js"></script>
+    <!-- JavaScript文件 -->
+    <script src="SkillConfig.js"></script>
+    <script src="SkillExecutor.js"></script>
+    <script src="GameCore.js"></script>
+    <script src="SkillSystem.js"></script>
+    <script src="MediaManager.js"></script>
+    <script src="UIManager.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
