@@ -9,7 +9,7 @@ const SKILL_CONFIG = {
     pickGold: { 
         name: '拾金不昧', 
         cooldown: 5, 
-        description: '将被扔走的棋子随机恢复到棋盘',
+        description: '在棋盘空位随机生成一颗自己的棋子',
         icon: '♻️'
     },
     cleanHouse: { 

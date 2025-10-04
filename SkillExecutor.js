@@ -15,28 +15,7 @@ class SkillExecutor {
     }
     
     static executePickGold() {
-        // 筛选出当前玩家的被移除棋子
-        const myRemovedPieces = window.gameCore.removedPieces.filter(
-            piece => piece.player === window.gameCore.currentPlayer
-        );
-        
-        if (myRemovedPieces.length === 0) {
-            window.gameCore.addGameLog('♻️ 咦？你没有被扔走的棋子可以恢复呢~');
-            return;
-        }
-        
-        // 从自己的被移除棋子中随机选一个
-        const randomIndex = Math.floor(Math.random() * myRemovedPieces.length);
-        const piece = myRemovedPieces[randomIndex];
-        
-        // 从全局removedPieces中移除这个棋子
-        const globalIndex = window.gameCore.removedPieces.findIndex(
-            p => p.row === piece.row && p.col === piece.col && p.player === piece.player
-        );
-        if (globalIndex !== -1) {
-            window.gameCore.removedPieces.splice(globalIndex, 1);
-        }
-        
+        // 找到所有空位
         const emptySpots = [];
         for (let i = 0; i < 15; i++) {
             for (let j = 0; j < 15; j++) {
@@ -46,16 +25,19 @@ class SkillExecutor {
             }
         }
         
-        if (emptySpots.length > 0) {
-            const randomSpot = emptySpots[Math.floor(Math.random() * emptySpots.length)];
-            
-            // 添加视觉效果延迟
-            setTimeout(() => {
-                window.gameCore.board[randomSpot.row][randomSpot.col] = piece.player;
-                window.gameCore.updateCellDisplayWithAnimation(randomSpot.row, randomSpot.col);
-                window.gameCore.addGameLog(`♻️ 哇！拾金不昧的精神让你的棋子回来啦！放在了(${randomSpot.row + 1}, ${randomSpot.col + 1})~`);
-            }, 500);
+        if (emptySpots.length === 0) {
+            window.gameCore.addGameLog('♻️ 棋盘已满，无法生成新棋子~');
+            return;
         }
+        
+        const randomSpot = emptySpots[Math.floor(Math.random() * emptySpots.length)];
+        
+        // 添加视觉效果延迟
+        setTimeout(() => {
+            window.gameCore.board[randomSpot.row][randomSpot.col] = window.gameCore.currentPlayer;
+            window.gameCore.updateCellDisplayWithAnimation(randomSpot.row, randomSpot.col);
+            window.gameCore.addGameLog(`♻️ 拾金不昧！在(${randomSpot.row + 1}, ${randomSpot.col + 1})生成了一颗棋子~`);
+        }, 500);
     }
     
     static executeCleanHouse() {
@@ -99,7 +81,7 @@ class SkillExecutor {
     static executeSilence() {
         const opponentPlayer = window.gameCore.currentPlayer === 1 ? 2 : 1;
         window.skillSystem.skillEffects.silencedPlayer = opponentPlayer;
-        window.skillSystem.skillEffects.silenceDuration = 1;
+        window.skillSystem.skillEffects.silenceDuration = 2;
         window.gameCore.addGameLog('⏸️ 静如止水~对手下回合将无法使用技能！');
     }
     

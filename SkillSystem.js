@@ -180,12 +180,7 @@ class SkillSystem {
         this.playerSkillCooldowns[window.gameCore.currentPlayer][skillId] = skill.cooldown;
         this.resetSkillSelection();
         
-        if (skillId !== 'reverseBoard') {
-            window.gameCore.addGameLog(`💫 ${playerName}的${skill.name}生效完毕，可以继续下棋`);
-        } else {
-            window.gameCore.addGameLog(`💫 ${playerName}的${skill.name}生效完毕，交换执手`);
-            window.gameCore.switchPlayer();
-        }
+        window.gameCore.addGameLog(`💫 ${playerName}的${skill.name}生效完毕，可以继续下棋`);
         
         if (window.uiManager) {
             window.uiManager.updateUI();
