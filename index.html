@@ -4,16 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>技能五子棋 | 在线对战</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/board.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- 防止缓存 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- 版本号：更新后请修改此版本号 -->
+    <meta name="version" content="1.0.1">
+    
+    <link rel="stylesheet" href="css/base.css?v=1.0.1">
+    <link rel="stylesheet" href="css/layout.css?v=1.0.1">
+    <link rel="stylesheet" href="css/board.css?v=1.0.1">
+    <link rel="stylesheet" href="css/responsive.css?v=1.0.1">
 </head>
 <body>
     <div class="game-container">
         <!-- 音频和视频元素 -->
         <audio id="bgmAudio" loop preload="auto">
-            <source src="res/BGM.flac" type="audio/flac">
+            <source src="res/BGM.flac?v=1.0.0" type="audio/flac">
         </audio>
         <video id="skillVideo" style="display: none;" preload="auto">
             <source src="" type="video/mp4">
@@ -216,12 +225,12 @@
     </div>
 
     <!-- JavaScript文件 -->
-    <script src="SkillConfig.js"></script>
-    <script src="SkillExecutor.js"></script>
-    <script src="GameCore.js"></script>
-    <script src="SkillSystem.js"></script>
-    <script src="MediaManager.js"></script>
-    <script src="UIManager.js"></script>
-    <script src="main.js"></script>
+    <script src="SkillConfig.js?v=1.0.1"></script>
+    <script src="SkillExecutor.js?v=1.0.1"></script>
+    <script src="GameCore.js?v=1.0.1"></script>
+    <script src="SkillSystem.js?v=1.0.1"></script>
+    <script src="MediaManager.js?v=1.0.1"></script>
+    <script src="UIManager.js?v=1.0.1"></script>
+    <script src="main.js?v=1.0.1"></script>
 </body>
 </html>

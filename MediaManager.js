@@ -9,14 +9,17 @@ class MediaManager {
         this.globalClickHandler = null;
         this.isMusicEnabled = true; // 音乐开关状态
         
+        // 视频版本号（只在视频更新时才修改）
+        this.videoVersion = '1.0.1';
+        
         // 技能视频资源映射
         this.skillVideoMap = {
-            'flyStone': ['飞沙走石.mp4', '飞沙走石1.mp4', '飞沙走石3.mp4'],
-            'pickGold': ['拾金不昧.mp4'],
-            'cleanHouse': ['保洁上门.mp4', '保洁上门2.mp4'],
-            'silence': ['静如止水.mp4', '静如止水2.mp4'],
+            'flyStone': ['飞沙走石.mp4', '飞沙走石1.mp4', '飞沙走石2.mp4', '飞沙走石3.mp4'],
+            'pickGold': ['拾金不昧.mp4', '拾金不昧2.mp4'],
+            'cleanHouse': ['保洁上门.mp4', '保洁上门2.mp4', '保洁上门3.mp4', '保洁上门4.mp4'],
+            'silence': ['静如止水.mp4', '静如止水2.mp4', '静如止水3.mp4'],
             'reverseBoard': ['两级反转.mp4'],
-            'clearAll': ['力拔山兮.mp4', '力拔山兮2.mp4', '力拔山兮3.mp4']
+            'clearAll': ['力拔山兮.mp4', '力拔山兮2.mp4', '力拔山兮3.mp4', '放大招.mp4']
         };
         
         this.videoOverlay = null;
@@ -41,6 +44,20 @@ class MediaManager {
             });
         }
         
+        // 页面关闭时停止音乐
+        window.addEventListener('beforeunload', () => {
+            this.stopAll();
+        });
+        
+        // 页面隐藏时暂停音乐
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.pauseBGM();
+            } else if (this.isMusicEnabled && !this.isVideoPlaying) {
+                this.playBGM();
+            }
+        });
+        
         // 初始化音乐按钮状态
         this.updateMusicButtonDisplay();
     }
@@ -59,6 +76,19 @@ class MediaManager {
         }
     }
     
+    stopAll() {
+        // 停止BGM
+        if (this.bgmAudio) {
+            this.bgmAudio.pause();
+            this.bgmAudio.currentTime = 0;
+        }
+        // 停止视频
+        if (this.skillVideo) {
+            this.skillVideo.pause();
+            this.skillVideo.src = '';
+        }
+    }
+    
     playSkillVideo(skillId) {
         if (!this.skillVideo || !this.skillVideoMap[skillId]) return;
         
@@ -71,8 +101,8 @@ class MediaManager {
         this.isVideoPlaying = true;
         this.currentSkillId = skillId; // 保存当前技能ID用于延迟释放
         
-        // 设置视频源并播放
-        this.skillVideo.src = `res/${randomVideo}`;
+        // 设置视频源并播放（添加版本号参数）
+        this.skillVideo.src = `res/${randomVideo}?v=${this.videoVersion}`;
         this.skillVideo.loop = true; // 设置循环播放
         this.skillVideo.style.display = 'block';
         this.skillVideo.style.position = 'fixed';
