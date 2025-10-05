@@ -179,7 +179,7 @@ class MediaManager {
         hint.style.padding = '10px 20px';
         hint.style.backgroundColor = 'rgba(0,0,0,0.5)';
         hint.style.borderRadius = '10px';
-        hint.innerHTML = '🎥 技能演示中...<br/>👆 点击任意位置关闭视频';
+        hint.innerHTML = '🎥 技能演示中...<br/>👆 点击视频位置可关闭视频';
         
         this.videoOverlay.appendChild(hint);
         document.body.appendChild(this.videoOverlay);
