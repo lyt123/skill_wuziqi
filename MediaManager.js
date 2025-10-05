@@ -28,7 +28,7 @@ class MediaManager {
         
         // 设置BGM循环播放
         if (this.bgmAudio) {
-            this.bgmAudio.volume = 0.3; // 设置音量
+            this.bgmAudio.volume = 0.1; // 设置音量（调小）
             this.bgmAudio.addEventListener('canplaythrough', () => {
                 this.playBGM();
             });
